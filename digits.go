@@ -21,7 +21,6 @@ import (
 	"io/ioutil"
 	"math"
 	"net/http"
-	gourl "net/url"
 	"os"
 	"os/signal"
 	"regexp"
@@ -29,13 +28,13 @@ import (
 	"strings"
 	"time"
 
-	"github.com/rakyll/digits/requester"
+	"github.com/jkassismz/digits/requester"
 )
 
 const (
 	headerRegexp = `^([\w-]+):\s*(.+)`
 	authRegexp   = `^(.+):([^\s].+)`
-	digitsUA        = "digits/0.0.1"
+	digitsUA     = "digits/0.0.1"
 )
 
 var (
@@ -180,15 +179,6 @@ func main() {
 		bodyAll = slurp
 	}
 
-	var proxyURL *gourl.URL
-	if *proxyAddr != "" {
-		var err error
-		proxyURL, err = gourl.Parse(*proxyAddr)
-		if err != nil {
-			usageAndExit(err.Error())
-		}
-	}
-
 	req, err := http.NewRequest(method, url, nil)
 	if err != nil {
 		usageAndExit(err.Error())
@@ -213,18 +203,11 @@ func main() {
 	req.Header = header
 
 	w := &requester.Work{
-		Request:            req,
-		RequestBody:        bodyAll,
-		N:                  num,
-		C:                  conc,
-		QPS:                q,
-		Timeout:            *t,
-		DisableCompression: *disableCompression,
-		DisableKeepAlives:  *disableKeepAlives,
-		DisableRedirects:   *disableRedirects,
-		H2:                 *h2,
-		ProxyAddr:          proxyURL,
-		Output:             *output,
+		N:       num,
+		C:       conc,
+		QPS:     q,
+		Timeout: *t,
+		Output:  *output,
 	}
 	w.Init()
 
