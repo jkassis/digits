@@ -31,11 +31,17 @@ digits was forked and adapted from raykll/hey
 
 ## Installation
 
+These links might work someday... for now... pull the source and do
+
+> go run digits.go [options...]
+
+
 * Linux 64-bit: https://storage.googleapis.com/digits-release/digits_linux_amd64
 * Mac 64-bit: https://storage.googleapis.com/digits-release/digits_darwin_amd64
 * Windows 64-bit: https://storage.googleapis.com/digits-release/digits_windows_amd64
 
 ### Package Managers
+This also doesn't work right now...
 
 macOS:
 -  [Homebrew](https://brew.sh/) users can use `brew install digits`.
@@ -63,5 +69,4 @@ Options:
   -t  Timeout for each request in seconds. Default is 20, use 0 for infinite.
 
   -cpus                 Number of used cpu cores.
-                        (default for current machine is 8 cores)
 ```
