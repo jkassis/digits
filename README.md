@@ -1,4 +1,27 @@
-![digits](http://i.imgur.com/szzD9q0.png)
+
+DDDDDDDDDDDDD          iiii                        iiii          tttt
+D::::::::::::DDD      i::::i                      i::::i      ttt:::t
+D:::::::::::::::DD     iiii                        iiii       t:::::t
+DDD:::::DDDDD:::::D                                           t:::::t
+  D:::::D    D:::::D iiiiiii    ggggggggg   gggggiiiiiiittttttt:::::ttttttt        ssssssssss
+  D:::::D     D:::::Di:::::i   g:::::::::ggg::::gi:::::it:::::::::::::::::t      ss::::::::::s
+  D:::::D     D:::::D i::::i  g:::::::::::::::::g i::::it:::::::::::::::::t    ss:::::::::::::s
+  D:::::D     D:::::D i::::i g::::::ggggg::::::gg i::::itttttt:::::::tttttt    s::::::ssss:::::s
+  D:::::D     D:::::D i::::i g:::::g     g:::::g  i::::i      t:::::t           s:::::s  ssssss
+  D:::::D     D:::::D i::::i g:::::g     g:::::g  i::::i      t:::::t             s::::::s
+  D:::::D     D:::::D i::::i g:::::g     g:::::g  i::::i      t:::::t                s::::::s
+  D:::::D    D:::::D  i::::i g::::::g    g:::::g  i::::i      t:::::t    ttttttssssss   s:::::s
+DDD:::::DDDDD:::::D  i::::::ig:::::::ggggg:::::g i::::::i     t::::::tttt:::::ts:::::ssss::::::s
+D:::::::::::::::DD   i::::::i g::::::::::::::::g i::::::i     tt::::::::::::::ts::::::::::::::s
+D::::::::::::DDD     i::::::i  gg::::::::::::::g i::::::i       tt:::::::::::tt s:::::::::::ss
+DDDDDDDDDDDDD        iiiiiiii    gggggggg::::::g iiiiiiii         ttttttttttt    sssssssssss
+                                         g:::::g
+                             gggggg      g:::::g
+                             g:::::gg   gg:::::g
+                              g::::::ggg:::::::g
+                               gg:::::::::::::g
+                                 ggg::::::ggg
+                                    gggggg
 
 [![Build Status](https://travis-ci.org/jkassismz/digits.svg?branch=master)](https://travis-ci.org/jkassismz/digits)
 
