@@ -18,50 +18,36 @@ package main
 import (
 	"flag"
 	"fmt"
-	"io/ioutil"
 	"math"
-	"net/http"
 	"os"
 	"os/signal"
 	"regexp"
 	"runtime"
-	"strings"
 	"time"
 
 	"github.com/jkassismz/digits/requester"
 )
 
 const (
-	headerRegexp = `^([\w-]+):\s*(.+)`
-	authRegexp   = `^(.+):([^\s].+)`
-	digitsUA     = "digits/0.0.1"
+	digitsUA = "digits/0.0.1"
 )
 
 var (
-	m           = flag.String("m", "GET", "")
-	headers     = flag.String("h", "", "")
-	body        = flag.String("d", "", "")
-	bodyFile    = flag.String("D", "", "")
-	accept      = flag.String("A", "", "")
-	contentType = flag.String("T", "text/html", "")
-	authHeader  = flag.String("a", "", "")
-	hostHeader  = flag.String("host", "", "")
+	headers    = flag.String("h", "", "")
+	body       = flag.String("d", "", "")
+	bodyFile   = flag.String("D", "", "")
+	accept     = flag.String("A", "", "")
+	authHeader = flag.String("a", "", "")
+	hostHeader = flag.String("host", "", "")
 
 	output = flag.String("o", "", "")
 
-	c = flag.Int("c", 50, "")
-	n = flag.Int("n", 200, "")
-	q = flag.Float64("q", 0, "")
-	t = flag.Int("t", 20, "")
-	z = flag.Duration("z", 0, "")
-
-	h2   = flag.Bool("h2", false, "")
+	c    = flag.Int("c", 50, "")
+	n    = flag.Int("n", 200, "")
+	q    = flag.Float64("q", 0, "")
+	t    = flag.Int("t", 20, "")
+	z    = flag.Duration("z", 0, "")
 	cpus = flag.Int("cpus", runtime.GOMAXPROCS(-1), "")
-
-	disableCompression = flag.Bool("disable-compression", false, "")
-	disableKeepAlives  = flag.Bool("disable-keepalive", false, "")
-	disableRedirects   = flag.Bool("disable-redirects", false, "")
-	proxyAddr          = flag.String("x", "", "")
 )
 
 var usage = `Usage: digits [options...] <url>
@@ -71,31 +57,13 @@ Options:
   -c  Number of workers to run concurrently. Total number of requests cannot
       be smaller than the concurrency level. Default is 50.
   -q  Rate limit, in queries per second (QPS) per worker. Default is no rate limit.
+  -t  Timeout per request
   -z  Duration of application to send requests. When duration is reached,
       application stops and exits. If duration is specified, n is ignored.
       Examples: -z 10s -z 3m.
   -o  Output type. If none provided, a summary is printed.
       "csv" is the only supported alternative. Dumps the response
       metrics in comma-separated values format.
-
-  -m  HTTP method, one of GET, POST, PUT, DELETE, HEAD, OPTIONS.
-  -H  Custom HTTP header. You can specify as many as needed by repeating the flag.
-      For example, -H "Accept: text/html" -H "Content-Type: application/xml" .
-  -t  Timeout for each request in seconds. Default is 20, use 0 for infinite.
-  -A  HTTP Accept header.
-  -d  HTTP request body.
-  -D  HTTP request body from file. For example, /home/user/file.txt or ./file.txt.
-  -T  Content-type, defaults to "text/html".
-  -a  Basic authentication, username:password.
-  -x  HTTP Proxy address as host:port.
-  -h2 Enable HTTP/2.
-
-  -host	HTTP Host header.
-
-  -disable-compression  Disable compression.
-  -disable-keepalive    Disable keep-alive, prevents re-use of TCP
-                        connections between different HTTP requests.
-  -disable-redirects    Disable following of HTTP redirects
   -cpus                 Number of used cpu cores.
                         (default for current machine is %d cores)
 `
@@ -134,75 +102,10 @@ func main() {
 		}
 	}
 
-	url := flag.Args()[0]
-	method := strings.ToUpper(*m)
-
-	// set content-type
-	header := make(http.Header)
-	header.Set("Content-Type", *contentType)
-	// set any other additional headers
-	if *headers != "" {
-		usageAndExit("Flag '-h' is deprecated, please use '-H' instead.")
-	}
-	// set any other additional repeatable headers
-	for _, h := range hs {
-		match, err := parseInputWithRegexp(h, headerRegexp)
-		if err != nil {
-			usageAndExit(err.Error())
-		}
-		header.Set(match[1], match[2])
-	}
-
-	if *accept != "" {
-		header.Set("Accept", *accept)
-	}
-
-	// set basic auth if set
-	var username, password string
-	if *authHeader != "" {
-		match, err := parseInputWithRegexp(*authHeader, authRegexp)
-		if err != nil {
-			usageAndExit(err.Error())
-		}
-		username, password = match[1], match[2]
-	}
-
-	var bodyAll []byte
-	if *body != "" {
-		bodyAll = []byte(*body)
-	}
-	if *bodyFile != "" {
-		slurp, err := ioutil.ReadFile(*bodyFile)
-		if err != nil {
-			errAndExit(err.Error())
-		}
-		bodyAll = slurp
-	}
-
-	req, err := http.NewRequest(method, url, nil)
-	if err != nil {
-		usageAndExit(err.Error())
-	}
-	req.ContentLength = int64(len(bodyAll))
-	if username != "" || password != "" {
-		req.SetBasicAuth(username, password)
-	}
-
-	// set host header if set
-	if *hostHeader != "" {
-		req.Host = *hostHeader
-	}
-
-	ua := req.UserAgent()
-	if ua == "" {
-		ua = digitsUA
-	} else {
-		ua += " " + digitsUA
-	}
-	header.Set("User-Agent", ua)
-	req.Header = header
+	host := flag.Args()[0]
 
 	w := &requester.Work{
+		Host:    host,
 		N:       num,
 		C:       conc,
 		QPS:     q,

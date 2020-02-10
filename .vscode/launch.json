@@ -14,7 +14,7 @@
       // "args": ["-n", "1000", "-c", "1", "www.google.com"]
       //"args": ["-q", "100", "-c", "1", "-z", "100s", "www.google.com"]
       // "args": ["-q", "100", "-z", "10s", "www.google.com"]
-      "args": ["-q", "10", "-z", "100s", "-c", "1", "www.google.com"]
+      "args": ["-q", "1000", "-z", "100s", "-c", "50", "www.google.com"]
       // "args": ["-q", "100", "-z", "20s", "www.google.com"]
     }
   ]
