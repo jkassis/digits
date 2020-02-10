@@ -1,4 +1,4 @@
-
+```
 DDDDDDDDDDDDD          iiii                        iiii          tttt
 D::::::::::::DDD      i::::i                      i::::i      ttt:::t
 D:::::::::::::::DD     iiii                        iiii       t:::::t
@@ -22,7 +22,7 @@ DDDDDDDDDDDDD        iiiiiiii    gggggggg::::::g iiiiiiii         ttttttttttt   
                                gg:::::::::::::g
                                  ggg::::::ggg
                                     gggggg
-
+```
 [![Build Status](https://travis-ci.org/jkassismz/digits.svg?branch=master)](https://travis-ci.org/jkassismz/digits)
 
 digits is a tiny program that sends some load to a web application.
